@@ -2,15 +2,15 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-slate-100 mt-5 py-8">
+    <footer className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-12">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex flex-col lg:flex-row gap-10 justify-between">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Logo & Description */}
-          <div className="lg:w-2/5">
+          <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-3">
               <img src="/img/logo.png" className="h-[90px] w-[90px]" alt="Logo" />
             </Link>
-            <p className="mt-6 text-lg text-gray-700 leading-relaxed">
+            <p className="mt-6 text-lg text-gray-100 leading-relaxed">
               Our platform offers a user-friendly interface supporting formats like MP4, MP3, and WAV.
               Easily extract audio, convert files, or batch process multiple uploads securely, ensuring
               fast, high-quality results every time.
@@ -18,26 +18,26 @@ const Footer = () => {
           </div>
 
           {/* Information Links */}
-          <div className="lg:w-1/5">
-            <h2 className="text-xl font-semibold text-gray-800">Information</h2>
-            <ul className="mt-4 space-y-2 text-lg text-gray-700">
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-6">Information</h2>
+            <ul className="space-y-4">
               <li>
-                <Link href="/aboutpage" className="hover:text-blue-600">
+                <Link href="/aboutpage" className="text-gray-200 hover:text-white transition duration-300">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="hover:text-blue-600">
+                <Link href="/privacy" className="text-gray-200 hover:text-white transition duration-300">
                   Privacy & Policy
                 </Link>
               </li>
               <li>
-                <Link href="/videoconvertor" className="hover:text-blue-600">
+                <Link href="/videoconvertor" className="text-gray-200 hover:text-white transition duration-300">
                   Video Revoice
                 </Link>
               </li>
               <li>
-                <Link href="/audioconvertor" className="hover:text-blue-600">
+                <Link href="/audioconvertor" className="text-gray-200 hover:text-white transition duration-300">
                   Speech Maker
                 </Link>
               </li>
@@ -45,23 +45,23 @@ const Footer = () => {
           </div>
 
           {/* Social Media Links */}
-          <div className="lg:w-1/5">
-            <h2 className="text-xl font-semibold text-gray-800">Follow Us</h2>
-            <ul className="mt-4 space-y-2 text-lg text-gray-700">
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-6">Follow Us</h2>
+            <ul className="space-y-4">
               <li>
-                <Link href="#" className="flex items-center space-x-3 hover:text-blue-600">
+                <Link href="#" className="flex items-center space-x-3 text-gray-200 hover:text-white transition duration-300">
                   <i className="fa-brands fa-twitter text-xl"></i>
                   <span>Twitter</span>
                 </Link>
               </li>
               <li>
-                <Link href="#" className="flex items-center space-x-3 hover:text-blue-600">
+                <Link href="#" className="flex items-center space-x-3 text-gray-200 hover:text-white transition duration-300">
                   <i className="fa-brands fa-instagram text-xl"></i>
                   <span>Instagram</span>
                 </Link>
               </li>
               <li>
-                <Link href="#" className="flex items-center space-x-3 hover:text-blue-600">
+                <Link href="#" className="flex items-center space-x-3 text-gray-200 hover:text-white transition duration-300">
                   <i className="fa-brands fa-facebook text-xl"></i>
                   <span>Facebook</span>
                 </Link>
@@ -69,9 +69,14 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-      </div>
 
-     
+        {/* Copyright Section */}
+        <div className="border-t border-gray-300/20 mt-10 pt-8 text-center">
+          <p className="text-gray-200">
+            &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+          </p>
+        </div>
+      </div>
     </footer>
   );
 };

@@ -4,69 +4,55 @@ import { FAQsData } from '../dataset/data';
 
 const Questions = () => {
     const [openIndex, setOpenIndex] = useState(null);
-    
+
     const toggleAccordion = (index) => {
         setOpenIndex(prevIndex => (prevIndex === index ? null : index));
     };
 
     return (
-        <div className="container-fluid p-0 mb-36">
+        <div className="container mx-auto px-4 py-12 ">
             {/* Heading Section */}
-            <div className="flex justify-center items-center text-center mt-6">
-                <div className="w-full sm:w-[600px] lg:w-[800px] mt-6">
-                    <div className="mt-5 w-full lg:max-w-[1320px] mx-auto p-4">
-                        <h1 className="text-2xl sm:text-3xl font-bold text-indigo-700">Why Choose SmartTransform?</h1>
-                        <p className="text-md sm:text-lg mt-4 text-gray-600">
-                            Our AI-driven platform delivers seamless video & audio transformation with advanced features tailored for creators, podcasters, and professionals.
-                        </p>
-                    </div>
-                </div>
+            <div className="text-center mb-10">
+                <h1 className="text-4xl font-bold text-gray-800">Frequently Asked Questions</h1>
+                <p className="text-lg text-gray-600 mt-2">
+                    Get answers to common questions about our video & audio transformation services.
+                </p>
             </div>
 
-            {/* Accordion Section */}
-            <div className="flex mt-5 w-full lg:max-w-[950px] mx-auto p-7 bg-gradient-to-r from-indigo-100 to-purple-200 rounded-xl shadow-lg">
-                <div id="accordion-open" data-accordion="open" className="w-full">
-                    {FAQsData.map((item, index) => (
-                        <div key={index} className="p-1">
-                            <h2 id={`accordion-open-heading-${index}`}>
-                                <button
-                                    type="button"
-                                    className={`flex text-justify justify-between w-full p-5 font-medium rounded-xl transition-all duration-200 ${
-                                        openIndex === index ? 'bg-indigo-700 text-white' : 'bg-white text-gray-900 hover:bg-indigo-500 hover:text-white'
-                                    }`}
-                                    onClick={() => toggleAccordion(index)}
-                                    aria-expanded={openIndex === index}
-                                    aria-controls={`accordion-open-body-${index}`}
-                                >
-                                    <div className="flex items-center">
-                                        <span className="font-bold text-xl">{item.questionNo}</span>
-                                        <span className="font-normal ml-3 text-lg text-left">{item.question}</span>
-                                    </div>
-                                    <svg
-                                        className={`w-3 h-3 shrink-0 transition-transform duration-200 ${
-                                            openIndex === index ? 'rotate-180' : ''
-                                        }`}
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 10 6"
-                                    >
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5 5 1 1 5" />
-                                    </svg>
-                                </button>
-                            </h2>
-                            <div
-                                id={`accordion-open-body-${index}`}
-                                className={`p-5 text-lg border border-b-0 border-gray-300 bg-white rounded-b-xl transition-all duration-200 ${
-                                    openIndex === index ? 'block' : 'hidden'
-                                }`}
-                                aria-labelledby={`accordion-open-heading-${index}`}
-                            >
-                                {item.answer}
-                            </div>
+            {/* FAQ Cards */}
+            <div className="max-w-4xl mx-auto">
+                {FAQsData.map((item, index) => (
+                    <div 
+                        key={index} 
+                        className={`border-b border-gray-300 overflow-hidden ${
+                            openIndex === index ? "border-2 border-indigo-600 rounded-md" : ""
+                        }`}
+                    >
+                        {/* Question Section */}
+                        <button 
+                            onClick={() => toggleAccordion(index)} 
+                            className={`flex justify-between items-center w-full text-left p-4 text-lg font-semibold bg-gray-100 hover:bg-indigo-600 hover:text-white transition-all duration-300 rounded-md ${
+                                openIndex === index ? "bg-indigo-600 text-white" : ""
+                            }`}
+                        >
+                            <span>{item.question}</span>
+                            
+                            {/* Right-side + or - Icon */}
+                            <span className={`text-2xl transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`}>
+                                {openIndex === index ? "−" : "+"}
+                            </span>
+                        </button>
+
+                        {/* Answer Section */}
+                        <div 
+                            className={`p-4 text-gray-700 transition-all duration-300 ${
+                                openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                            } overflow-hidden`}
+                        >
+                            {item.answer}
                         </div>
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
         </div>
     );

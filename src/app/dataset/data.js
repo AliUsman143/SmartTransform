@@ -137,14 +137,7 @@ const FeaturedCardData = [
     title: "HD Video Output",
     content: "Experience 1080p+ quality rendering for all your video conversions.",
   },
-  {
-    id: "06",
-    type: "Audio",
-    labelColor: "#7C3AED", // Dark Purple
-    style: { color: "#7C3AED" },
-    title: "AI-Powered Voice Cloning",
-    content: "Clone voices with incredible accuracy for podcasts, dubbing, and more.",
-  },
+ 
 ];
 
 export default FeaturedCardData;
@@ -196,33 +189,62 @@ const FAQsData = [
     questionNo: "Q1:",
     question: "How can I convert my video into high-quality audio?",
     answer: "Simply upload your video file to SmartTransform, and our AI-powered converter will extract the audio, delivering a high-quality MP3 or WAV file instantly."
-},
-{
+  },
+  {
     id: 2,
     questionNo: "Q2:",
     question: "Can I turn an audio file into a video with visuals?",
     answer: "Yes! Upload your audio file, select a background image or dynamic visuals, and our platform will generate a professional video with your audio embedded."
-},
-{
+  },
+  {
     id: 3,
     questionNo: "Q3:",
     question: "What file formats does SmartTransform support?",
     answer: "We support multiple formats, including MP4, MP3, WAV, AVI, FLAC, and more. Convert your files seamlessly to match your needs."
-},
-{
+  },
+  {
     id: 4,
     questionNo: "Q4:",
     question: "Is my data secure while using SmartTransform?",
     answer: "Absolutely! Your files are processed securely and are automatically deleted after conversion. We prioritize privacy and never store your data."
-},
-{
+  },
+  {
     id: 5,
     questionNo: "Q5:",
     question: "Can I convert multiple files at once?",
     answer: "Yes! Our batch processing feature allows you to upload and convert multiple video or audio files simultaneously, saving time and effort."
-}
+  },
+  {
+    id: 6,
+    questionNo: "Q6:",
+    question: "Do I need to install any software to use SmartTransform?",
+    answer: "No installation is required. SmartTransform is a fully online tool, allowing you to convert files directly from your browser with no downloads needed."
+  },
+  {
+    id: 7,
+    questionNo: "Q7:",
+    question: "Are there any limitations on file size?",
+    answer: "We offer generous file size limits for free users, and premium users enjoy even larger upload capacities. Check our pricing page for details."
+  },
+  {
+    id: 8,
+    questionNo: "Q8:",
+    question: "Can I enhance or edit my audio before conversion?",
+    answer: "Yes! SmartTransform offers basic audio enhancement features such as noise reduction, volume boosting, and trimming before conversion."
+  },
+  {
+    id: 9,
+    questionNo: "Q9:",
+    question: "Does SmartTransform support cloud storage integration?",
+    answer: "Yes! You can upload files directly from Google Drive, Dropbox, or OneDrive, and download converted files back to your preferred cloud service."
+  },
+  {
+    id: 10,
+    questionNo: "Q10:",
+    question: "How long does it take to convert a file?",
+    answer: "Conversion time depends on file size and format, but most conversions are completed within seconds using our high-speed processing technology."
+  }
 ];
-  
 
 
 
