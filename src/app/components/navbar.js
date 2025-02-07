@@ -1,30 +1,32 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import usePathname to get the current route
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname(); // Get the current path
+  const pathname = usePathname();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-slate-100 z-50 shadow-md">
+    <nav className="fixed top-0 left-0 w-full bg-gray-900 z-50 shadow-md">
       <div className="max-w-screen-xl mx-auto flex flex-wrap items-center justify-between p-4">
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <img src="/img/logo.png" className="h-8 sm:h-10" alt="Logo" />
-          <p className="pl-2 font-semibold text-gray-500 md:text-3xl text-2xl ">SmartTransform</p>
+          <p className="pl-2 font-semibold text-white md:text-3xl text-2xl">
+            SmartTransform
+          </p>
         </Link>
 
         {/* Hamburger Menu */}
         <button
           onClick={toggleMenu}
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-white rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
           aria-controls="navbar"
           aria-expanded={isOpen}
         >
@@ -57,76 +59,27 @@ const Navbar = () => {
           id="navbar"
         >
           <ul className="flex flex-col mt-4 md:flex-row md:mt-0 md:space-x-6">
-            <li>
-              <Link
-                href="/"
-                className={`block py-2 ${
-                  pathname === "/" ? "text-blue-500 border-b-2 border-blue-500" : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/videoconvertor"
-                className={`block py-2 ${
-                  pathname === "/videoconvertor"
-                    ? "text-blue-500 border-b-2 border-blue-500"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                SmartVidz
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/audioconvertor"
-                className={`block py-2 ${
-                  pathname === "/audioconvertor"
-                    ? "text-blue-500 border-b-2 border-blue-500"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                SmartSpeak 
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/audioconvertor"
-                className={`block py-2 ${
-                  pathname === "/audioconvertor"
-                    ? "text-blue-500 border-b-2 border-blue-500"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                 SmartScan
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/aboutpage"
-                className={`block py-2 ${
-                  pathname === "/aboutpage"
-                    ? "text-blue-500 border-b-2 border-blue-500"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/loginform"
-                className={`block py-2 ${
-                  pathname === "/loginform"
-                    ? "text-blue-500 border-b-2 border-blue-500"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
-              >
-                Login / Register
-              </Link>
-            </li>
+            {[
+              { href: "/", label: "Home" },
+              { href: "/videoconvertor", label: "SmartVidz" },
+              { href: "/audioconvertor", label: "SmartSpeak" },
+              { href: "/audioconvertor", label: "SmartScan" },
+              { href: "/aboutpage", label: "About Us" },
+              { href: "/loginform", label: "Login / Register" },
+            ].map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`block py-2 ${
+                    pathname === item.href
+                      ? "text-indigo-400 border-b-2 border-indigo-400"
+                      : "text-white hover:text-gray-300 hover:underline"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
