@@ -61,9 +61,10 @@ const Navbar = () => {
           <ul className="flex flex-col mt-4 md:flex-row md:mt-0 md:space-x-6">
             {[
               { href: "/", label: "Home" },
-              { href: "/videoconvertor", label: "SmartVidz" },
-              { href: "/audioconvertor", label: "SmartSpeak" },
-              { href: "/audioconvertor", label: "SmartScan" },
+              { href: "/textvideo", label: "SmartVidz" },
+              { href: "/textspeak", label: "SmartSpeak" },
+              { href: "/imgtext", label: "SmartScan" },
+              { href: "/voicetext", label: "SmartVoice" },
               { href: "/aboutpage", label: "About Us" },
               { href: "/loginform", label: "Login / Register" },
             ].map((item) => (

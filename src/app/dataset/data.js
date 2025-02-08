@@ -93,6 +93,33 @@ const CardDataExtraction = [
   },
 ];
 
+const CardDataVoiceToText = [
+  {
+    id: 1,
+    image: "https://cdn-icons-png.flaticon.com/512/3097/3097331.png",
+    title: "Record or Upload Audio",
+    content: "Upload an audio file or record your voice in real-time.",
+  },
+  {
+    id: 2,
+    image: "https://cdn-icons-png.flaticon.com/512/4185/4185198.png",
+    title: "AI Transcription",
+    content: "Our AI processes the audio and converts speech into text.",
+  },
+  {
+    id: 3,
+    image: "https://cdn-icons-png.flaticon.com/512/3523/3523885.png",
+    title: "Text Preview & Editing",
+    content: "View and edit the transcribed text as needed.",
+  },
+  {
+    id: 4,
+    image: "https://cdn-icons-png.flaticon.com/512/892/892357.png",
+    title: "Copy or Download",
+    content: "Copy the converted text or download it as a document.",
+  },
+];
+
 
 
 // Featured Cards Data (Updated for SmartTransform)
@@ -249,4 +276,4 @@ const FAQsData = [
 
 
 
-export {CardDataVideo, CardDataAudio, CardDataExtraction,FeaturedCardData,Rewritertooldata,FAQsData};
+export {CardDataVideo, CardDataAudio, CardDataExtraction,CardDataVoiceToText,FeaturedCardData,Rewritertooldata,FAQsData};

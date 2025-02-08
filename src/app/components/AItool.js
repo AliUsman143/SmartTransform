@@ -23,7 +23,7 @@ const TextToVideo = () => {
           Give me a topic, premise, and detailed instructions in any language:
         </label>
         <textarea
-          className="w-full h-40 p-5 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full h-40 p-4 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none"
           placeholder={`Type your text here... (Max ${maxWords} words)`}
           value={text}
           onChange={(e) => setText(e.target.value)}
