@@ -20,25 +20,30 @@ const Footer = () => {
           {/* Information Links */}
           <div>
             <h2 className="text-2xl font-bold text-white mb-6">Information</h2>
-            <ul className="space-y-4">
+            <ul className="space-y-2 font-semibold">
               <li>
                 <Link href="/aboutpage" className="text-gray-200 hover:text-white transition duration-300">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-gray-200 hover:text-white transition duration-300">
-                  Privacy & Policy
+                <Link href="/textvideo" className="text-gray-200 hover:text-white transition duration-300">
+                Text-to-Video
                 </Link>
               </li>
               <li>
-                <Link href="/videoconvertor" className="text-gray-200 hover:text-white transition duration-300">
-                  Video Revoice
+                <Link href="/textspeak" className="text-gray-200 hover:text-white transition duration-300">
+                Text-to-Voice
                 </Link>
               </li>
               <li>
-                <Link href="/audioconvertor" className="text-gray-200 hover:text-white transition duration-300">
-                  Speech Maker
+                <Link href="/imgtext" className="text-gray-200 hover:text-white transition duration-300">
+                Image-to-Text
+                </Link>
+              </li>
+              <li>
+                <Link href="/voicetext" className="text-gray-200 hover:text-white transition duration-300">
+                Voice-to-Text
                 </Link>
               </li>
             </ul>
@@ -70,12 +75,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright Section */}
-        <div className="border-t border-gray-300/20 mt-10 pt-8 text-center">
-          <p className="text-gray-200">
-            &copy; {new Date().getFullYear()} Your Company. All rights reserved.
-          </p>
-        </div>
+       
       </div>
     </footer>
   );

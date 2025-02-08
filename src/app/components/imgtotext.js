@@ -32,7 +32,7 @@ const TextExtraction = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-600 to-indigo-800 text-white p-6">
       {/* Tool Heading */}
-      <h2 className="text-3xl font-bold mb-6">📄 AI Image to Text Converter</h2>
+      <h2 className="text-3xl font-bold mb-6">📄 AI Image-to-Text Converter</h2>
 
       {/* Upload Box */}
       <div className="w-full max-w-5xl bg-white p-8 rounded-xl shadow-lg text-gray-900 flex flex-col items-center border-2 border-dashed border-gray-300">
