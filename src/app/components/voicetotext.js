@@ -103,7 +103,7 @@ const VoiceToText = () => {
               onClick={handleStartListening}
               className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
             >
-              🎤 Start Listening
+              🎤 Start Speaking
             </button>
           ) : (
             <button
@@ -121,7 +121,7 @@ const VoiceToText = () => {
             type="file"
             accept="audio/*"
             onChange={handleFileChange}
-            className="block w-full text-white bg-gray-800 border border-gray-600 p-2 rounded-lg"
+            className="block w-full text-white bg-gray-400 border border-gray-600 p-2 rounded-lg"
           />
           <button
             onClick={handleConvertFile}

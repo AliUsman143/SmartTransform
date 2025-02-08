@@ -3,7 +3,6 @@ import { useState } from 'react';
 
 const TextToVoice = () => {
   const [text, setText] = useState('');
-  const [voiceType, setVoiceType] = useState('female');
   const maxWords = 3000;
 
   const handleTextToSpeech = () => {
@@ -12,10 +11,8 @@ const TextToVoice = () => {
     const utterance = new SpeechSynthesisUtterance(text);
     const voices = speechSynthesis.getVoices();
     
-    // Select voice based on gender
-    utterance.voice = voices.find((voice) =>
-      voiceType === 'male' ? voice.name.includes('Male') : voice.name.includes('Female')
-    ) || voices[0];
+    // Automatically select a male voice
+    utterance.voice = voices.find((voice) => voice.name.includes('Male')) || voices[0];
 
     speechSynthesis.speak(utterance);
   };
@@ -39,17 +36,6 @@ const TextToVoice = () => {
 
         {/* Max Word Count Message */}
         <p className="text-gray-500 text-sm mt-2">⚠️ You can enter up to {maxWords} words.</p>
-
-        {/* Voice Selection */}
-        <label className="block text-lg font-medium mt-4">Select Voice Type:</label>
-        <select
-          className="w-full mt-2 p-3 rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-purple-500 outline-none"
-          value={voiceType}
-          onChange={(e) => setVoiceType(e.target.value)}
-        >
-          <option value="female">Female Voice</option>
-          <option value="male">Male Voice</option>
-        </select>
 
         {/* Convert to Voice Button */}
         <button
