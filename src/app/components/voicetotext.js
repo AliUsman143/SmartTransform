@@ -75,13 +75,13 @@ const VoiceToText = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-indigo-700  text-white">
       {/* Tool Heading */}
-      <h2 className="text-3xl font-bold text-blue-400 mb-4">🎙️ Voice-to-Text Converter</h2>
+      <h2 className="text-3xl font-bold text-white mb-4">🎙️ Voice-to-Text Converter</h2>
 
       {/* Voice Input Section */}
-      <div className="w-full max-w-6xl bg-gray-800 p-6 rounded-lg shadow-lg">
-        <label className="block text-lg mb-2">
+      <div className="w-full max-w-6xl  bg-white  border-2 border-dashed border-gray-300 p-6 rounded-lg shadow-lg">
+        <label className="block text-gray-500 text-lg mb-2">
           Speak into your microphone or upload an audio file:
         </label>
 
@@ -101,7 +101,7 @@ const VoiceToText = () => {
           {!isListening ? (
             <button
               onClick={handleStartListening}
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
+              className="bg-green-600 hover:bg-green-800 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
             >
               🎤 Start Speaking
             </button>
@@ -121,7 +121,7 @@ const VoiceToText = () => {
             type="file"
             accept="audio/*"
             onChange={handleFileChange}
-            className="block w-full text-white bg-gray-400 border border-gray-600 p-2 rounded-lg"
+            className="block w-full text-white bg-gray-600 border-2 border-dashed border-gray-600 p-2 rounded-lg"
           />
           <button
             onClick={handleConvertFile}

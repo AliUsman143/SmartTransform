@@ -13,21 +13,22 @@ const TextToVideo = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-indigo-700  text-white p-6">
       {/* Tool Heading */}
-      <h2 className="text-3xl font-bold text-blue-400 mb-6">🎥 AI Text-to-Video Generator</h2>
+      <h2 className="text-3xl font-bold text-white mb-6">🎥 AI Text-to-Video Generator</h2>
 
       {/* Text Input Section */}
-      <div className="w-full max-w-6xl bg-gray-800 p-8 rounded-lg shadow-lg">
+      <div className="w-full max-w-6xl bg-white text-gray-900 border-2 border-dashed border-gray-300 p-8 rounded-lg shadow-lg">
         <label className="block text-lg mb-2 mt-2">
           Give me a topic, premise, and detailed instructions in any language:
         </label>
         <textarea
-          className="w-full h-40 p-4 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-blue-500 outline-none"
+          className="w-full h-40 p-4 rounded-lg bg-gray-100 border border-gray-300 focus:ring-2 focus:ring-purple-500 outline-none"
           placeholder={`Type your text here... (Max ${maxWords} words)`}
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
+       
 
         {/* Max Word Count Message */}
         <p className="text-gray-400 text-sm mt-2">⚠️ You can enter up to {maxWords} words.</p>

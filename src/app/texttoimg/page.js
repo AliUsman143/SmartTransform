@@ -1,15 +1,15 @@
 import React from 'react'
-import AiTool from '../components/AItool'
 import Footer from '../components/footer';
 import Navbar from '../components/navbar';
-const VideoConvertor = () => {
+import TextToImage from '../components/texttoimg';
+const AudioConvertor = () => {
   return (
     <>
        <Navbar/>
-        <AiTool/>
+       <TextToImage/>
        <Footer/>
     </>
   )
 }
 
-export default VideoConvertor;
+export default AudioConvertor;

@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import { FaUser, FaLock } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
 const AuthForm = () => {
-  const [isRegister, setIsRegister] = useState(true); // Toggle between Register and Login
+  const [isRegister, setIsRegister] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,6 +16,8 @@ const AuthForm = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,15 +26,11 @@ const AuthForm = () => {
 
   const validateForm = () => {
     const errors = {};
-
     if (isRegister) {
-      // Validation for Register Form
       if (!formData.name) errors.name = "Name is required.";
       if (!formData.email)
         errors.email = "Email is required.";
-      else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
-      )
+      else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email))
         errors.email = "Invalid email address.";
 
       if (!formData.password) errors.password = "Password is required.";
@@ -41,17 +42,12 @@ const AuthForm = () => {
       else if (formData.password !== formData.confirmPassword)
         errors.confirmPassword = "Passwords do not match.";
     } else {
-      // Validation for Login Form
       if (!formData.email)
         errors.email = "Email is required.";
-      else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
-      )
+      else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email))
         errors.email = "Invalid email address.";
-
       if (!formData.password) errors.password = "Password is required.";
     }
-
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -60,142 +56,110 @@ const AuthForm = () => {
     e.preventDefault();
     if (validateForm()) {
       console.log("Form Data:", formData);
-      // Add API integration here
     }
   };
 
   return (
     <>
-    <Navbar/>
-    <div className="flex items-center justify-center min-h-screen mt-6 bg-gradient-to-r from-purple-400 to-blue-600">
-      <div className="w-full max-w-md p-5 space-y-6 bg-white rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800">
-          {isRegister ? "Register" : "Login"}
-        </h2>
-        <form onSubmit={handleSubmit}>
-          {isRegister && (
-            <>
-              {/* Name Field */}
-              <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700 font-medium">
-                  Name
-                </label>
+      <Navbar />
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-indigo-700">
+        <div className="w-full max-w-md p-5 space-y-6 bg-white rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold text-center text-gray-800">
+            {isRegister ? "Register" : "Login"}
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {isRegister && (
+              <div className="relative">
+                <FaUser className="absolute left-3 top-3 text-gray-500" />
                 <input
                   type="text"
-                  id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
-                    errors.name ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
                   placeholder="Enter your name"
                 />
-                {errors.name && (
-                  <p className="text-sm text-red-500 mt-1">{errors.name}</p>
-                )}
+                {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
               </div>
-            </>
-          )}
-
-          {/* Email Field */}
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-medium">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="Enter your email"
-            />
-            {errors.email && (
-              <p className="text-sm text-red-500 mt-1">{errors.email}</p>
             )}
-          </div>
 
-          {/* Password Field */}
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700 font-medium">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="Enter your password"
-            />
-            {errors.password && (
-              <p className="text-sm text-red-500 mt-1">{errors.password}</p>
-            )}
-          </div>
+            <div className="relative">
+              <MdEmail className="absolute left-3 top-3 text-gray-500" />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="Enter your email"
+              />
+              {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+            </div>
 
-          {isRegister && (
-            <>
-              {/* Confirm Password Field */}
-              <div className="mb-4">
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-gray-700 font-medium"
-                >
-                  Confirm Password
-                </label>
+            <div className="relative">
+              <FaLock className="absolute left-3 top-3 text-gray-500" />
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full pl-10 pr-10 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-3 text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+              </button>
+              {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
+            </div>
+
+            {isRegister && (
+              <div className="relative">
+                <FaLock className="absolute left-3 top-3 text-gray-500" />
                 <input
-                  type="password"
-                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className={`w-full px-4 py-2 border rounded-lg focus:outline-none ${
-                    errors.confirmPassword ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className="w-full pl-10 pr-10 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
                   placeholder="Confirm your password"
                 />
-                {errors.confirmPassword && (
-                  <p className="text-sm text-red-500 mt-1">
-                    {errors.confirmPassword}
-                  </p>
-                )}
+                <button
+                  type="button"
+                  className="absolute right-3 top-3 text-gray-500"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                </button>
+                {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword}</p>}
               </div>
-            </>
-          )}
+            )}
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none"
-          >
-            {isRegister ? "Register" : "Login"}
-          </button>
-        </form>
-
-        {/* Toggle between Register/Login */}
-        <div className="text-center">
-          <p className="text-sm text-gray-600">
-            {isRegister
-              ? "Already have an account?"
-              : "Don't have an account?"}{" "}
             <button
-              onClick={() => setIsRegister(!isRegister)}
-              className="text-blue-500 hover:underline focus:outline-none"
+              type="submit"
+              className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none"
             >
-              {isRegister ? "Login" : "Register"}
+              {isRegister ? "Register" : "Login"}
             </button>
-          </p>
+          </form>
+
+          <div className="text-center">
+            <p className="text-sm text-gray-600">
+              {isRegister ? "Already have an account?" : "Don't have an account?"} {" "}
+              <button
+                onClick={() => setIsRegister(!isRegister)}
+                className="text-blue-500 hover:underline focus:outline-none"
+              >
+                {isRegister ? "Login" : "Register"}
+              </button>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </>
   );
 };

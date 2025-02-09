@@ -1,7 +1,6 @@
 "use client";
 import Featured from "./components/featured";
 import RewriterTool from "./components/rewritertool";
-// import FAQs from "./components/FAQ";
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
 import Questions from "./components/question";
@@ -13,9 +12,7 @@ const Index = () => {
       <Navbar />
       <Homepagesection/>
       <Featured />
-      {/* <AiTool/> */}
       <RewriterTool />
-      {/* <FAQs /> */}
       <Questions/>
       <Footer />
     </>

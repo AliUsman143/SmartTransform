@@ -18,12 +18,12 @@ const TextToVoice = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center mt-10 min-h-screen bg-gradient-to-r from-purple-800 to-pink-600 text-white p-6">
+    <div className="flex flex-col items-center justify-center mt-10 min-h-screen bg-gradient-to-r from-blue-500 to-indigo-700  text-white p-6">
       {/* Tool Heading */}
       <h2 className="text-3xl font-bold text-white mb-3">🎙️ AI Text-to-Voice Generator</h2>
 
       {/* Input Section */}
-      <div className="w-full max-w-4xl bg-white p-8 rounded-xl shadow-lg text-gray-900">
+      <div className="w-full max-w-6xl bg-white p-8 rounded-xl shadow-lg text-gray-900 border-2 border-dashed border-gray-300">
         <label className="block text-lg font-medium mb-2">
           Enter text to convert into speech:
         </label>
