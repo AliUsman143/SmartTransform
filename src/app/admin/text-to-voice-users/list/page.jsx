@@ -100,7 +100,7 @@ function Page() {
             <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5 mt-4 overflow-auto">
               <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                 <h1 className="text-gray-700 font-medium text-2xl">
-                  Text-to-Video Users
+                  Text-to-Voice Users
                 </h1>
                 <div className="flex items-center lg:order-2">
                   <form className="max-w-md mx-auto">

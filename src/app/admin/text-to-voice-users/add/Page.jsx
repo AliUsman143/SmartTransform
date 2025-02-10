@@ -13,9 +13,20 @@ import Header from "../../components/header/Header";
 import SweetAlert from "@/app/components/alert/SweetAlert";
 import Cookies from "js-cookie";
 
-function Page({ params }) {
+function Page() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
+  const [data, setData] = useState([]);
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    Cookie.remove("authToken");
+    router.push("/auth/login");
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   const [country, setCountry] = useState("");
   const btnRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,63 +37,81 @@ function Page({ params }) {
     city: "",
     position: "",
     salary: 0,
-    date_of_join_of_join: "",
-    job_type: "",
+    date: "",
+    jobType: "",
+    file: null,
     picture: null,
     gender: "",
   });
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    Cookie.remove("authToken");
-    router.push("/auth/login");
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = Cookies.get("authToken");
-        const response = await axios.get(`../../../api/employee/${params.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setFormdata(response.data.data);
-      } catch (error) {
-        console.log("data not fetched");
-      }
-    };
-    fetchData();
-  }, [params.id]);
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-
   const [errorMessages, setErrorMessages] = useState({
+    name: "",
+    email: "",
     number: "",
     city: "",
     position: "",
     salary: "",
-    job_type: "",
+    date: "",
+    jobType: "",
+    file: null,
     picture: null,
+    gender: "",
   });
 
-  const validate_of_joinForm = () => {
-    const { email, number, city, position, salary, job_type, picture, gender } =
-      Formdata;
+  const validateForm = () => {
+    const {
+      name,
+      email,
+      number,
+      city,
+      position,
+      salary,
+      date,
+      jobType,
+      file,
+      picture,
+      gender,
+    } = Formdata;
+    const nameRegex = /^[a-zA-Z\s]*$/;
     const cityRegex = /^[a-zA-Z\s]*$/;
 
     let valid = true;
 
     setErrorMessages({
+      name: "",
+      email: "",
       number: "",
       city: "",
       position: "",
       salary: "",
-      job_type: "",
+      date: "",
+      jobType: "",
+      file: null,
       picture: null,
+      gender: "",
     });
+
+    if (name === "") {
+      setErrorMessages((prevState) => ({
+        ...prevState,
+        name: "Name is required",
+      }));
+      valid = false;
+    } else if (!nameRegex.test(name)) {
+      setErrorMessages((prevState) => ({
+        ...prevState,
+        name: "Name should not contain numbers or special characters",
+      }));
+      valid = false;
+    }
+
+    if (email === "") {
+      setErrorMessages((prevState) => ({
+        ...prevState,
+        email: "Email is required",
+      }));
+      valid = false;
+    }
 
     if (isNaN(salary) || salary === "" || salary <= 0) {
       setErrorMessages((prevState) => ({
@@ -122,16 +151,40 @@ function Page({ params }) {
       valid = false;
     }
 
-    if (job_type === "") {
+    if (date === "") {
       setErrorMessages((prevState) => ({
         ...prevState,
-        job_type: "Job-type is required",
+        date: "Date is required",
       }));
       valid = false;
-    } else if (job_type === "Job-Type") {
+    }
+
+    if (jobType === "") {
       setErrorMessages((prevState) => ({
         ...prevState,
-        job_type: "Job-type is required",
+        jobType: "Job-type is required",
+      }));
+      valid = false;
+    } else if (jobType === "Job-Type") {
+      setErrorMessages((prevState) => ({
+        ...prevState,
+        jobType: "Job-type is required",
+      }));
+      valid = false;
+    }
+
+    if (gender === "") {
+      setErrorMessages((prevState) => ({
+        ...prevState,
+        gender: "Gender is required",
+      }));
+      valid = false;
+    }
+
+    if (!file) {
+      setErrorMessages((prevState) => ({
+        ...prevState,
+        file: "File is required",
       }));
       valid = false;
     }
@@ -145,6 +198,38 @@ function Page({ params }) {
     }
 
     return valid;
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const allowedFormats = [
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "application/vnd.ms-powerpoint",
+    ];
+
+    if (!allowedFormats.includes(file.type)) {
+      setErrorMessages((prevErrors) => ({
+        ...prevErrors,
+        file: "File format must be PDF, DOCX, XLSX or PPTX",
+      }));
+      setFormdata((prevData) => ({
+        ...prevData,
+        file: null,
+      }));
+    } else {
+      setErrorMessages((prevErrors) => ({
+        ...prevErrors,
+        file: "",
+      }));
+      setFormdata((prevData) => ({
+        ...prevData,
+        file,
+      }));
+    }
   };
 
   const handlePictureChange = (e) => {
@@ -193,7 +278,30 @@ function Page({ params }) {
       setCountry(countryName);
     }
 
-    if (name === "city") {
+    if (name === "name") {
+      if (value.trim() === "") {
+        setErrorMessages((prevState) => ({
+          ...prevState,
+          name: "Name is required",
+        }));
+      } else if (!/^[a-zA-Z\s]*$/.test(value)) {
+        setErrorMessages((prevState) => ({
+          ...prevState,
+          name: "Name should not contain numbers or special characters",
+        }));
+      } else {
+        setErrorMessages((prevState) => ({ ...prevState, name: "" }));
+      }
+    } else if (name === "email") {
+      if (value.trim() === "") {
+        setErrorMessages((prevState) => ({
+          ...prevState,
+          email: "Email is required",
+        }));
+      } else {
+        setErrorMessages((prevState) => ({ ...prevState, email: "" }));
+      }
+    } else if (name === "city") {
       if (value.trim() === "") {
         setErrorMessages((prevState) => ({
           ...prevState,
@@ -216,6 +324,15 @@ function Page({ params }) {
       } else {
         setErrorMessages((prevState) => ({ ...prevState, position: "" }));
       }
+    } else if (name === "gender") {
+      if (value.trim() === "") {
+        setErrorMessages((prevState) => ({
+          ...prevState,
+          gender: "Gender is required",
+        }));
+      } else {
+        setErrorMessages((prevState) => ({ ...prevState, gender: "" }));
+      }
     } else if (name === "salary") {
       if (isNaN(value) || value === "" || value <= 0) {
         setErrorMessages((prevState) => ({
@@ -225,14 +342,23 @@ function Page({ params }) {
       } else {
         setErrorMessages((prevState) => ({ ...prevState, salary: "" }));
       }
-    } else if (name === "job_type") {
+    } else if (name === "date") {
+      if (value.trim() === "") {
+        setErrorMessages((prevState) => ({
+          ...prevState,
+          date: "Date is required",
+        }));
+      } else {
+        setErrorMessages((prevState) => ({ ...prevState, date: "" }));
+      }
+    } else if (name === "jobType") {
       if (value.trim() === "" || value === "Job-Type") {
         setErrorMessages((prevState) => ({
           ...prevState,
-          job_type: "Job-type is required",
+          jobType: "Job-type is required",
         }));
       } else {
-        setErrorMessages((prevState) => ({ ...prevState, job_type: "" }));
+        setErrorMessages((prevState) => ({ ...prevState, jobType: "" }));
       }
     }
   };
@@ -243,36 +369,47 @@ function Page({ params }) {
     e.preventDefault();
 
     if (
+      Formdata.name === "" &&
+      Formdata.email === "" &&
       Formdata.number === "" &&
       Formdata.city === "" &&
       Formdata.position === "" &&
       Formdata.salary === 0 &&
-      Formdata.job_type === "" &&
-      Formdata.picture === null
+      Formdata.date === "" &&
+      Formdata.jobType === "" &&
+      Formdata.file === null &&
+      Formdata.picture === null &&
+      Formdata.gender === ""
     ) {
-      validate_of_joinForm();
+      validateForm();
       return;
     }
 
-    if (!validate_of_joinForm()) {
+    if (!validateForm()) {
       SweetAlert("Validation Error", "Enter valid values", "error");
       return;
     }
     setIsSubmitting(true);
 
     const FormdataToSend = new FormData();
+
+    FormdataToSend.append("name", Formdata.name);
+    FormdataToSend.append("email", Formdata.email);
     FormdataToSend.append("number", Formdata.number);
     FormdataToSend.append("city", Formdata.city);
     FormdataToSend.append("position", Formdata.position);
     FormdataToSend.append("salary", Formdata.salary);
-    FormdataToSend.append("job_type", Formdata.job_type);
+    FormdataToSend.append("date", Formdata.date);
+    FormdataToSend.append("job_type", Formdata.jobType);
+    FormdataToSend.append("file", Formdata.file);
     FormdataToSend.append("picture", Formdata.picture);
     FormdataToSend.append("country", country);
+    FormdataToSend.append("gender", Formdata.gender);
 
     try {
       const token = Cookies.get("authToken");
-      const response = await axios.put(
-        `../../../api/employee/${params.id}`,
+      const response = await axios.post(
+        "../../../api/employee",
         FormdataToSend,
         {
           headers: {
@@ -281,9 +418,13 @@ function Page({ params }) {
           },
         }
       );
-
+      console.log(FormdataToSend.position);
+      console.log("position: ", Formdata.position);
+      console.log("salary: ", Formdata.salary);
+      console.log("date: ", Formdata.date);
+      console.log("job Type: ", Formdata.jobType);
       btnRef.current.classList.add("disable");
-      if (response.data.status == 200) {
+      if (response.data.statusCode == 200) {
         SweetAlert("Success", response.data.message, "success");
         setFormdata({
           name: "",
@@ -292,19 +433,19 @@ function Page({ params }) {
           city: "",
           position: "",
           salary: 0,
-          date_of_join: "",
-          job_type: "",
+          date: "",
+          jobType: "",
           file: null,
           picture: null,
           gender: null,
         });
-        route.push("./list");
+        //route.push("./list");
       }
-      if (response.data.status == 500) {
+      if (response.data.statusCode == 500) {
         SweetAlert("Error", response.data.message, "error");
       }
     } catch (error) {
-      SweetAlert("Error", "Server Error", "error");
+      SweetAlert("Error", response.data.message, "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -320,11 +461,10 @@ function Page({ params }) {
         <main className="flex-1 p-3 pt-4 h-screen  overflow-auto bg-white">
           <div className="mb-8 ml-20 mt-4">
             <h1 className="text-gray-700 font-medium text-2xl ">
-              Update Employee Data{" "}
+              Add Employee Data{" "}
             </h1>
             <p className="font-light text-sm">
-              <Link href={"../employees/list"}>Employees</Link> / Update
-              Employee
+              <Link href={"../employees/list"}>Employees</Link> / Add Employee
             </p>
           </div>
 
@@ -343,9 +483,15 @@ function Page({ params }) {
                   id="name"
                   name="name"
                   value={Formdata.name}
-                  className="text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-transparent border-gray-400 border-[0.5px] dark:placeholder-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 "
-                  readOnly={true}
+                  onChange={(e) => handleChange("name", e.target.value)}
+                  className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-transparent border-gray-500 border-[0.5px] dark:placeholder-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 "
+                  placeholder="Your name*"
                 />
+                {errorMessages.name && (
+                  <span className="text-red-500 font-bold text-xs validate">
+                    {errorMessages.name}
+                  </span>
+                )}
               </div>
 
               <div>
@@ -359,7 +505,7 @@ function Page({ params }) {
                   placeholder="City*"
                 />
                 {errorMessages.city && (
-                  <span className="text-red-500 font-bold text-xs validate_of_join">
+                  <span className="text-red-500 font-bold text-xs validate">
                     {errorMessages.city}
                   </span>
                 )}
@@ -369,12 +515,17 @@ function Page({ params }) {
                 <input
                   type="email"
                   id="email"
-                  name="emaillll"
+                  name="email"
                   value={Formdata.email}
-                  className="text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-transparent border-gray-400 border-[0.5px] dark:placeholder-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  onChange={(e) => handleChange("email", e.target.value)}
+                  className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-transparent border-gray-500 border-[0.5px] dark:placeholder-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Email*"
-                  readOnly={true}
                 />
+                {errorMessages.email && (
+                  <span className="text-red-500 font-bold text-xs validate">
+                    {errorMessages.email}
+                  </span>
+                )}
               </div>
 
               <div>
@@ -390,7 +541,7 @@ function Page({ params }) {
                   placeholder="Contact no. (optional)"
                 />
                 {errorMessages.number && (
-                  <span className="text-red-500 font-bold text-xs validate_of_join">
+                  <span className="text-red-500 font-bold text-xs validate">
                     {errorMessages.number}
                   </span>
                 )}
@@ -410,7 +561,7 @@ function Page({ params }) {
                   placeholder="Position*"
                 />
                 {errorMessages.position && (
-                  <span className="text-red-500 font-bold text-xs validate_of_join">
+                  <span className="text-red-500 font-bold text-xs validate">
                     {errorMessages.position}
                   </span>
                 )}
@@ -427,7 +578,7 @@ function Page({ params }) {
                   placeholder="Salary*"
                 />
                 {errorMessages.salary && (
-                  <span className="text-red-500 font-bold text-xs validate_of_join">
+                  <span className="text-red-500 font-bold text-xs validate">
                     {errorMessages.salary}
                   </span>
                 )}
@@ -435,21 +586,27 @@ function Page({ params }) {
 
               <div>
                 <input
-                  type="date_of_join"
-                  id="date_of_join"
-                  name="date_of_join"
-                  value={Formdata.date_of_join}
-                  className="text-gray-400 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-transparent border-gray-400 border-[0.5px] dark:placeholder-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 "
-                  readOnly={true}
+                  type="date"
+                  id="date"
+                  name="date"
+                  value={Formdata.date}
+                  onChange={(e) => handleChange("date", e.target.value)}
+                  className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-transparent border-gray-500 border-[0.5px] dark:placeholder-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 "
+                  placeholder="Date of Joining*"
                 />
+                {errorMessages.date && (
+                  <span className="text-red-500 font-bold text-xs validate">
+                    {errorMessages.date}
+                  </span>
+                )}
               </div>
 
               <div>
                 <select
-                  id="job_type"
-                  value={Formdata.job_type}
-                  onChange={(e) => handleChange("job_type", e.target.value)}
-                  name="job_type"
+                  id="jobType"
+                  value={Formdata.jobType}
+                  onChange={(e) => handleChange("jobType", e.target.value)}
+                  name="jobType"
                   typeof="text"
                   className="text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-transparent border-gray-500 border-[0.5px] dark:placeholder-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 "
                 >
@@ -460,16 +617,16 @@ function Page({ params }) {
                   <option value="part-time">Part-Time</option>
                   <option value="internee">Internee</option>
                 </select>
-                {errorMessages.job_type && (
-                  <span className="text-red-500 font-bold text-xs validate_of_join">
-                    {errorMessages.job_type}
+                {errorMessages.jobType && (
+                  <span className="text-red-500 font-bold text-xs validate">
+                    {errorMessages.jobType}
                   </span>
                 )}
               </div>
 
               <div className="col-span-2">
                 <fieldset className="flex flex-col gap-2">
-                  <legend className="text-sm font-light leading-7 text-gray-400 mb-2">
+                  <legend className="text-sm font-light leading-7 text-gray-700 mb-2">
                     Gender
                   </legend>
                   <div className="flex items-center space-x-6">
@@ -480,10 +637,10 @@ function Page({ params }) {
                         name="gender"
                         value="male"
                         checked={Formdata.gender === "male"}
+                        onChange={(e) => handleChange("gender", e.target.value)}
                         className="mr-2"
-                        readOnly={true}
                       />
-                      <label htmlFor="male" className="text-gray-400 text-sm">
+                      <label htmlFor="male" className="text-gray-900 text-sm">
                         Male
                       </label>
                     </div>
@@ -494,14 +651,61 @@ function Page({ params }) {
                         name="gender"
                         value="female"
                         checked={Formdata.gender === "female"}
+                        onChange={(e) => handleChange("gender", e.target.value)}
                         className="mr-2"
                       />
-                      <label htmlFor="female" className="text-gray-400 text-sm">
+                      <label htmlFor="female" className="text-gray-900 text-sm">
                         Female
                       </label>
                     </div>
                   </div>
+                  {errorMessages.gender && (
+                    <span className="text-red-500 font-bold text-xs validate mt-2">
+                      {errorMessages.gender}
+                    </span>
+                  )}
                 </fieldset>
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-base font-semibold leading-7 text-white">
+                Upload CV
+              </h2>
+              <div className="mt-6">
+                <div className="mt-2 flex items-center gap-x-3">
+                  <div className="relative">
+                    <input
+                      id="file-upload"
+                      name="file"
+                      type="file"
+                      accept=".pdf,.docx,.xlsx,.pptx"
+                      className="sr-only"
+                      onChange={handleFileChange}
+                    ></input>
+                    <label
+                      htmlFor="file-upload"
+                      className="rounded-md bg-white px-3 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 cursor-pointer"
+                    >
+                      {" "}
+                      CV Document
+                    </label>
+                    <span className="ml-3 text-gray-600">or drag and drop</span>
+                  </div>
+                  {errorMessages.file && (
+                    <span className="text-red-500 font-bold text-xs validate">
+                      {errorMessages.file}
+                    </span>
+                  )}
+                </div>
+                <p className="mt-2 text-xs leading-5 text-gray-600">
+                  Only PDF,Docx,XLSX and PPTX Files are allowed
+                </p>
+                {Formdata.file && (
+                  <p className="mt-2 text-xs leading-5 text-gray-600">
+                    Selected file: {Formdata.file.name}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -529,7 +733,7 @@ function Page({ params }) {
                     <span className="ml-3 text-gray-600">or drag and drop</span>
                   </div>
                   {errorMessages.picture && (
-                    <span className="text-red-500 font-bold text-xs validate_of_join">
+                    <span className="text-red-500 font-bold text-xs validate">
                       {errorMessages.picture}
                     </span>
                   )}
@@ -537,6 +741,11 @@ function Page({ params }) {
                 <p className="mt-2 text-xs leading-5 text-gray-600">
                   Only JPG, JPEG, and PNG files are allowed
                 </p>
+                {Formdata.picture && (
+                  <p className="mt-2 text-xs leading-5 text-gray-600">
+                    Selected file: {Formdata.picture.name}
+                  </p>
+                )}
               </div>
             </div>
 
