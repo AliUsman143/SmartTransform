@@ -10,4 +10,4 @@ function layout({ children }) {
     )
 }
 
-export default layout
+export default layout
